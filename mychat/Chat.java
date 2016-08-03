@@ -2,10 +2,10 @@ package mychat;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 
-
-public class Chat{
+public class Chat implements Runnable{
     private JFrame frame=new JFrame("wongpeeng's first chat program");
     private JLabel contentLabel=new JLabel("chat content:");
     private JLabel sendLabel=new JLabel("what to say:");
@@ -15,6 +15,8 @@ public class Chat{
     private JTextArea contentArea=new JTextArea(20,20);//row,col
     private JTextArea sendArea=new JTextArea(20,20);
     private JDialog dialog=new JDialog(frame,"Configuration");
+    private Thread netThread=new Thread(this);
+    private Config config=new Config();
     public Chat(){
        // System.out.println("hello!");
        initGui();
@@ -41,17 +43,17 @@ public class Chat{
         JLabel nicknameL=new JLabel("my nickname");
         JTextField ipField=new JTextField(15);
         JTextField port=new JTextField(8);
-        JTextField nicknameF=new JTextField(20);
+        JTextField nickNameF=new JTextField(20);
         port.setText("2044");
-        JButton sureButton=new JButton("sure");
+        JButton connButton=new JButton("Connect");
         dpanel.add(ipLabel);
         dpanel.add(ipField);
         dpanel.add(portLabel);
         dpanel.add(port);
         dpanel.add(nicknameL);
-        dpanel.add(nicknameF);
+        dpanel.add(nickNameF);
         dpanel.add(new JLabel("     "));
-        dpanel.add(sureButton);
+        dpanel.add(connButton);
         dialog.setVisible(true);//must set visible after adding,not before
 
 
@@ -73,6 +75,46 @@ public class Chat{
         fpanel.add(sendPanel);
         fpanel.add(buttonPanel);
         frame.setVisible(true);//set true after adding not before
+        
+        netThread.start();
+/********add listener*****/
+        connButton.addActionListener(new ConnListener(ipField,port,nickNameF));//directly jtextfield as input,because object is a reference,like pointer,not a copy,they are the same one here.
+    }//init
 
+/*******inner actionlistener class****/
+class ConnListener implements ActionListener{
+        private JTextField myIp;
+        private JTextField myPort;
+        private JTextField myName;
+        ConnListener(JTextField ip,JTextField port,JTextField name){
+            myIp=ip;
+            myPort=port;
+            myName=name;
+        }
+        public void actionPerformed(ActionEvent e){
+            config.set(myIp.getText(),myPort.getText(),myName.getText());
+            dialog.setVisible(false);
+        }
+    }//ConnListerner
+
+
+/********socket*********/
+    public void run(){
+        System.out.println("OK");
     }
+
+
+
 }
+/*******configuration class ******/
+class Config{
+    private String ipAddr;
+    private String inPort;
+    private String inNickName;
+    public void set(String ip,String port,String name){
+        ipAddr=ip;
+        inPort=port;
+        inNickName=name;
+    }   
+}
+
