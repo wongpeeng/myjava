@@ -14,6 +14,7 @@ public class Chat implements Runnable{
     private JButton sendButton=new JButton("send");
     private JButton disconButton=new JButton("disconnect");
     private JTextArea contentArea=new JTextArea(20,20);//row,col
+    private JScrollPane scroll=new JScrollPane(contentArea);
     private JTextArea sendArea=new JTextArea(20,20);
     private JDialog dialog=new JDialog(frame,"Configuration");
     private Thread netThread=new Thread(this);
@@ -67,7 +68,8 @@ public class Chat implements Runnable{
         JPanel buttonPanel=new JPanel();
         contentPanel.setLayout(new GridLayout(2,1,10,15));
         contentPanel.add(contentLabel);
-        contentPanel.add(contentArea);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        contentPanel.add(scroll);
         sendPanel.setLayout(new GridLayout(2,1,10,15));
         sendPanel.add(sendLabel);
         sendPanel.add(sendArea);
