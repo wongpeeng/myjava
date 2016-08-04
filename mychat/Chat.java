@@ -132,8 +132,9 @@ class SendListener implements ActionListener{
             ds.receive(dp);
             while(true){
                 ds.receive(dp);
-                String message=new String(dp.getData());
+                String message=new String(dp.getData(),dp.getOffset(),dp.getLength());//use the offset and length to get the right messager,or the message sent last time also will be showed parly
                 contentArea.append("the other side says:"+message+"\n");
+                dp.setLength(1024);// must reset buffetr length after receiving,or the buffer length will be reduced to the message length.
             }
         }
         catch(Exception e){}
