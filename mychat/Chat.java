@@ -83,6 +83,8 @@ public class Chat implements Runnable{
         
 /********add listener*****/
         connButton.addActionListener(new ConnListener(dIpField,dPort,myPortF,nickNameF));//directly jtextfield as input,because object is a reference,like pointer,not a copy,they are the same one here.
+        sendButton.addActionListener(new SendListener());
+
     }//init
 
 /*******inner actionlistener class****/
@@ -102,8 +104,19 @@ class ConnListener implements ActionListener{
             netThread.start();
             dialog.setVisible(false);
         }
-    }//ConnListerner
-
+ }//ConnListerner
+class SendListener implments ActionListener{
+        public void actionPerformed(ActionEvent e){
+            try{
+                byte[] buf=sendArea.getText().trim().getBytes();
+                DatagramPacket dp=new DatagramPacket(buf,buf.length,InetAddress.getByName(config.getDIp()),Integer.parseInt(config.getDport));
+                DatagramSocket ds=new DatagramSocket();
+                ds.send(dp);
+                ds.close();
+            }
+            catch(Exception e){}
+        }
+}
 
 /********socket*********/
     public void run(){
