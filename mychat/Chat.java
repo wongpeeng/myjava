@@ -38,18 +38,22 @@ public class Chat implements Runnable{
         dialog.setBounds(200,200,300,250);
         dialog.setLayout(new GridLayout(4,2,10,10));
         Container dpanel=dialog.getContentPane();
-        JLabel ipLabel=new JLabel("destination IP");
-        JLabel portLabel=new JLabel("destination port");
+        JLabel dIpLabel=new JLabel("destination IP");
+        JLabel dPortLabel=new JLabel("destination port");
         JLabel nicknameL=new JLabel("my nickname");
-        JTextField ipField=new JTextField(15);
-        JTextField port=new JTextField(8);
+        JLabel myPortL=new JLabel("my port");
+        JTextField dIpField=new JTextField(15);
+        JTextField dPort=new JTextField(8);
         JTextField nickNameF=new JTextField(20);
-        port.setText("2044");
+        JTextField myPortF=new JTextField(8);
+        dPort.setText("2044");
         JButton connButton=new JButton("Connect");
-        dpanel.add(ipLabel);
-        dpanel.add(ipField);
-        dpanel.add(portLabel);
-        dpanel.add(port);
+        dpanel.add(dIpLabel);
+        dpanel.add(dIpField);
+        dpanel.add(dPortLabel);
+        dpanel.add(dPort);
+        dpanel.add(myPortL);
+        dpanel.add(myPortF);
         dpanel.add(nicknameL);
         dpanel.add(nickNameF);
         dpanel.add(new JLabel("     "));
@@ -78,15 +82,16 @@ public class Chat implements Runnable{
         
         netThread.start();
 /********add listener*****/
-        connButton.addActionListener(new ConnListener(ipField,port,nickNameF));//directly jtextfield as input,because object is a reference,like pointer,not a copy,they are the same one here.
+        connButton.addActionListener(new ConnListener(dIpField,dPort,myPortF,nickNameF));//directly jtextfield as input,because object is a reference,like pointer,not a copy,they are the same one here.
     }//init
 
 /*******inner actionlistener class****/
 class ConnListener implements ActionListener{
-        private JTextField myIp;
+        private JTextField dIp;
+        private JTextField dPort;
         private JTextField myPort;
-        private JTextField myName;
-        ConnListener(JTextField ip,JTextField port,JTextField name){
+        private JTextFiedl myName;
+        ConnListener(JTextField toIp,JTextField toPort,,JTextField sPort,JTextField sName){
             myIp=ip;
             myPort=port;
             myName=name;
