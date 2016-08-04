@@ -36,7 +36,7 @@ public class Chat implements Runnable{
         frame.setResizable(true);
 
         dialog.setBounds(200,200,300,250);
-        dialog.setLayout(new GridLayout(4,2,10,10));
+        dialog.setLayout(new GridLayout(5,2,10,10));
         Container dpanel=dialog.getContentPane();
         JLabel dIpLabel=new JLabel("destination IP");
         JLabel dPortLabel=new JLabel("destination port");
@@ -90,14 +90,15 @@ class ConnListener implements ActionListener{
         private JTextField dIp;
         private JTextField dPort;
         private JTextField myPort;
-        private JTextFiedl myName;
-        ConnListener(JTextField toIp,JTextField toPort,,JTextField sPort,JTextField sName){
-            myIp=ip;
-            myPort=port;
-            myName=name;
+        private JTextField myName;
+        ConnListener(JTextField toIp,JTextField toPort,JTextField sPort,JTextField sName){
+            dIp=toIp;
+            dPort=toPort;
+            myName=sName;
+            myPort=sPort;
         }
         public void actionPerformed(ActionEvent e){
-            config.set(myIp.getText(),myPort.getText(),myName.getText());
+            config.set(dIp.getText(),dPort.getText(),myPort.getText(),myName.getText());
             dialog.setVisible(false);
         }
     }//ConnListerner
@@ -110,15 +111,18 @@ class ConnListener implements ActionListener{
 
 
 
-}
+}//chat
 /*******configuration class ******/
 class Config{
-    private String ipAddr;
-    private String inPort;
-    private String inNickName;
-    public void set(String ip,String port,String name){
-        ipAddr=ip;
-        inPort=port;
-        inNickName=name;
-    }   
+    private String dIp;
+    private String dPort;
+    private String myPort;
+    private String myName;
+    public void set(String toIp,String toPort,String sPort,String sName){
+        dIp=toIp;dPort=toPort;myPort=sPort;myName=sName;
+    }
+    public String getDIP(){return dIp;} 
+    public String getDport(){return dPort;}
+    public String getMyPort(){return myPort;}
+    public String getMyName(){return myName;} 
 }
