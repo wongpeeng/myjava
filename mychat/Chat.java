@@ -3,7 +3,8 @@ package mychat;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.io.*;
+import java.net.*;
 
 public class Chat implements Runnable{
     private JFrame frame=new JFrame("wongpeeng's first chat program");
@@ -80,7 +81,6 @@ public class Chat implements Runnable{
         fpanel.add(buttonPanel);
         frame.setVisible(true);//set true after adding not before
         
-        netThread.start();
 /********add listener*****/
         connButton.addActionListener(new ConnListener(dIpField,dPort,myPortF,nickNameF));//directly jtextfield as input,because object is a reference,like pointer,not a copy,they are the same one here.
     }//init
@@ -99,6 +99,7 @@ class ConnListener implements ActionListener{
         }
         public void actionPerformed(ActionEvent e){
             config.set(dIp.getText(),dPort.getText(),myPort.getText(),myName.getText());
+            netThread.start();
             dialog.setVisible(false);
         }
     }//ConnListerner
@@ -106,8 +107,20 @@ class ConnListener implements ActionListener{
 
 /********socket*********/
     public void run(){
-        System.out.println("OK");
-    }
+        //System.out.println("OK");
+        try{
+            DatagramSocket ds=new DatagramSocket(Integer.parseInt(config.getMyPort()));
+            byte[] buf=new byte[1024];
+            DatagramPacket dp=new DatagramPacket(buf,buf.length);
+            ds.receive(dp);
+            while(true){
+                ds.receive(dp);
+                String message=new String(dp.getData());
+                contentArea.append("the other side says:"+message+"\n");
+            }
+        }
+        catch(Exception e){}
+    }//run
 
 
 
