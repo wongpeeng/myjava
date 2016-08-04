@@ -105,16 +105,16 @@ class ConnListener implements ActionListener{
             dialog.setVisible(false);
         }
  }//ConnListerner
-class SendListener implments ActionListener{
+class SendListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
             try{
                 byte[] buf=sendArea.getText().trim().getBytes();
-                DatagramPacket dp=new DatagramPacket(buf,buf.length,InetAddress.getByName(config.getDIp()),Integer.parseInt(config.getDport));
+                DatagramPacket dp=new DatagramPacket(buf,buf.length,InetAddress.getByName(config.getDIp()),Integer.parseInt(config.getDPort()));
                 DatagramSocket ds=new DatagramSocket();
                 ds.send(dp);
                 ds.close();
             }
-            catch(Exception e){}
+            catch(Exception ee){}
         }
 }
 
@@ -147,8 +147,8 @@ class Config{
     public void set(String toIp,String toPort,String sPort,String sName){
         dIp=toIp;dPort=toPort;myPort=sPort;myName=sName;
     }
-    public String getDIP(){return dIp;} 
-    public String getDport(){return dPort;}
+    public String getDIp(){return dIp;} 
+    public String getDPort(){return dPort;}
     public String getMyPort(){return myPort;}
     public String getMyName(){return myName;} 
 }
