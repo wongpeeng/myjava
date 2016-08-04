@@ -112,6 +112,8 @@ class SendListener implements ActionListener{
                 DatagramPacket dp=new DatagramPacket(buf,buf.length,InetAddress.getByName(config.getDIp()),Integer.parseInt(config.getDPort()));
                 DatagramSocket ds=new DatagramSocket();
                 ds.send(dp);
+                contentArea.append("I say:"+sendArea.getText()+"\n");
+                sendArea.setText("");
                 ds.close();
             }
             catch(Exception ee){}
